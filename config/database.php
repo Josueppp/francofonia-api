@@ -17,8 +17,15 @@ class Database
 
     public function __construct()
     {
+        // Detectar si estamos en un entorno con variables de entorno (Render/Railway/etc)
+        if (getenv('DB_HOST')) {
+            $this->host = getenv('DB_HOST');
+            $this->db_name = getenv('DB_NAME');
+            $this->username = getenv('DB_USER');
+            $this->password = getenv('DB_PASS');
+        }
         // Detectar si estamos en local (localhost o 127.0.0.1)
-        if ($_SERVER['SERVER_NAME'] === 'localhost' || $_SERVER['SERVER_NAME'] === '127.0.0.1' || $_SERVER['SERVER_ADDR'] === '127.0.0.1') {
+        else if ($_SERVER['SERVER_NAME'] === 'localhost' || $_SERVER['SERVER_NAME'] === '127.0.0.1' || $_SERVER['SERVER_ADDR'] === '127.0.0.1') {
             $this->host = '127.0.0.1';
             $this->db_name = 'francofonia';
             $this->username = 'root';
