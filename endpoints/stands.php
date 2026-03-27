@@ -5,9 +5,6 @@
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../middleware/auth_middleware.php';
 
-// Proteger el endpoint - Detiene la ejecución si no hay token válido
-verifyRequest();
-
 function handleStands($method, $id) {
     $db = (new Database())->getConnection();
 
@@ -33,6 +30,7 @@ function handleStands($method, $id) {
             }
             break;
         case 'POST':
+            verifyRequest();
             if ($id === 'initialize') {
                 initializeStands($db);
             } else {
@@ -40,10 +38,12 @@ function handleStands($method, $id) {
             }
             break;
         case 'PUT':
+            verifyRequest();
             if ($id) updateStand($db, $id);
             else { http_response_code(400); echo json_encode(['error' => 'ID requerido']); }
             break;
         case 'DELETE':
+            verifyRequest();
             if ($id) deleteStand($db, $id);
             else { http_response_code(400); echo json_encode(['error' => 'ID requerido']); }
             break;
