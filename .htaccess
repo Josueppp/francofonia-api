@@ -1,0 +1,17 @@
+# Seguridad API Francofonía
+
+# Evitar navegación de directorios
+Options -Indexes
+
+# Habilitar RewriteEngine
+RewriteEngine On
+
+# Prevenir acceso a archivos ocultos
+RewriteCond %{SCRIPT_FILENAME} -d [OR]
+RewriteCond %{SCRIPT_FILENAME} -f
+RewriteRule "(^|/)\." - [F]
+
+# Redirigir todo a index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]
